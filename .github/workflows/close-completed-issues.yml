@@ -2,17 +2,16 @@ name: Close Completed Issues
 
 on:
   issues:
-    types: [labeled]
+    types:
+      - labeled
 
 jobs:
-  close-completed:
+  close-issue:
     runs-on: ubuntu-latest
-    if: github.event.label.name == 'completed'
-    permissions:
-      issues: write
     steps:
-      - name: Close issue
-        uses: actions/github-script@v7
+      - name: Close issue if labeled completed
+        if: github.event.label.name == 'completed'
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.update({
